@@ -1,7 +1,7 @@
 package com.moby.dashboard.exception.global;
 
 import com.moby.dashboard.exception.EmptyException;
-import com.moby.dashboard.exception.NotFoundTypeIdException;
+import com.moby.dashboard.exception.NotExistIdException;
 import com.moby.dashboard.exception.ResponseMessage;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +18,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 .body(ResponseMessage.builder()
                         .message(exception.getMessage()).build());
     }
-    @ExceptionHandler(NotFoundTypeIdException.class)
-    public ResponseEntity<ResponseMessage> notFoundTypeIdExceptionHandler(NotFoundTypeIdException exception){
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(NotExistIdException.class)
+    public ResponseEntity<ResponseMessage> notFoundTypeIdExceptionHandler(NotExistIdException exception){
+        return ResponseEntity.status(HttpStatus.NO_CONTENT)
                 .body(ResponseMessage.builder()
                         .message(exception.getMessage()).build());
     }

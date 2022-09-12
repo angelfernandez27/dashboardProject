@@ -1,7 +1,7 @@
 package com.moby.dashboard.service.imp;
 
 import com.moby.dashboard.exception.EmptyException;
-import com.moby.dashboard.exception.NotFoundTypeIdException;
+import com.moby.dashboard.exception.NotExistIdException;
 import com.moby.dashboard.persistence.models.dto.TypeDTO;
 import com.moby.dashboard.persistence.models.entity.TypeDocument;
 import com.moby.dashboard.persistence.repository.ITypeRepository;
@@ -36,11 +36,9 @@ public class TypeService implements ITypeService {
 
     @Override
     public List<TypeDTO> findAll() {
-        List<TypeDocument> typeDocumentList =typeRepository.findAll();
-        if (typeDocumentList.isEmpty()){
+        if (typeRepository.findAll().isEmpty())
             throw new EmptyException("Type list is empty");
-        }
-        return mapperListClassToListDto(typeDocumentList);
+        return mapperListClassToListDto(typeRepository.findAll());
     }
 
     @Override
@@ -51,16 +49,13 @@ public class TypeService implements ITypeService {
 
     @Override
     public void updateById(TypeDTO typeDTO, Long id) {
-        TypeDocument typeDocument =findByIdOrThrowException(id);
-        typeDocument.setName(typeDTO.getName());
-        typeRepository.save(typeDocument);
+        typeRepository.save(modelMapper.map(typeDTO,findByIdOrThrowException(id).getClass()));
 
     }
 
     @Override
     public void DeleteById(Long id) {
-        TypeDocument typeDocument =findByIdOrThrowException(id);
-        typeRepository.deleteById(typeDocument.getId());
+        typeRepository.deleteById(findByIdOrThrowException(id).getId());
 
     }
 
@@ -78,7 +73,7 @@ public class TypeService implements ITypeService {
 
     public TypeDocument findByIdOrThrowException(Long id){
         TypeDocument typeDocument =typeRepository.findById(id)
-                .orElseThrow(()->new NotFoundTypeIdException("Id not exist"));
+                .orElseThrow(()->new NotExistIdException("Id not exist"));
         return typeDocument;
     }
 
