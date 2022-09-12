@@ -1,4 +1,4 @@
-package com.moby.dashboard.persistence.entity;
+package com.moby.dashboard.persistence.models.entity;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

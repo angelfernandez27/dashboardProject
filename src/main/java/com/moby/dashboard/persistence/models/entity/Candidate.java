@@ -1,16 +1,16 @@
-package com.moby.dashboard.persistence.entity;
+package com.moby.dashboard.persistence.models.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
-import lombok.NonNull;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -32,9 +32,9 @@ public class Candidate {
     private String lastname;
 
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "type_id",referencedColumnName = "id")
-    private Type type;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="type_document_id",referencedColumnName = "id")
+    private TypeDocument typeDocument;
 
     @NotBlank(message = "documentNumber field must not be null or empty.")
     private String documentNumber;
