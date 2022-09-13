@@ -2,17 +2,18 @@ package com.moby.dashboard.service.imp;
 
 import com.moby.dashboard.exception.EmptyException;
 import com.moby.dashboard.exception.NotExistIdException;
-import com.moby.dashboard.persistence.models.dto.TypeDTO;
+import com.moby.dashboard.persistence.models.dto.TypeDocumentDTO;
 import com.moby.dashboard.persistence.models.entity.TypeDocument;
 import com.moby.dashboard.persistence.repository.ITypeRepository;
 import com.moby.dashboard.service.ITypeService;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@Slf4j
 @Service
 public class TypeService implements ITypeService {
 
@@ -26,8 +27,10 @@ public class TypeService implements ITypeService {
 
 
     @Override
-    public void create(TypeDTO typeDTO) {
-        typeRepository.save(modelMapper.map(typeDTO, TypeDocument.class));
+    public void create(TypeDocumentDTO typeDocumentDTO) {
+        log.info("Dto of create method in TypeDocument \n"+typeDocumentDTO);
+        TypeDocument typeDocument=typeRepository.save(modelMapper.map(typeDocumentDTO, TypeDocument.class));
+        log.debug("Response save method in Typedocument \n"+typeDocument);
     }
 
 
@@ -35,39 +38,46 @@ public class TypeService implements ITypeService {
 
 
     @Override
-    public List<TypeDTO> findAll() {
-        if (typeRepository.findAll().isEmpty())
+    public List<TypeDocumentDTO> findAll() {
+        List<TypeDocument>typeDocumentList=typeRepository.findAll();
+        if (typeDocumentList.isEmpty())
             throw new EmptyException("Type list is empty");
-        return mapperListClassToListDto(typeRepository.findAll());
+        log.debug("Response in findAll method of TypeDocument \n"+typeDocumentList);
+        return mapperListClassToListDto(typeDocumentList);
     }
 
     @Override
-    public TypeDTO findById(Long id) {
-        return modelMapper.map(findByIdOrThrowException(id),TypeDTO.class);
+    public TypeDocumentDTO findById(Long id) {
+        TypeDocument typeDocument=findByIdOrThrowException(id);
+        log.debug("Response of findById method in TypeDocument \n"+typeDocument);
+        return modelMapper.map(typeDocument, TypeDocumentDTO.class);
     }
 
 
     @Override
-    public void updateById(TypeDTO typeDTO, Long id) {
-        typeRepository.save(modelMapper.map(typeDTO,findByIdOrThrowException(id).getClass()));
+    public void updateById(TypeDocumentDTO typeDocumentDTO, Long id) {
+        log.info("Id and dto params of updateById method of TypeDocument \n"+id+"\n"+typeDocumentDTO);
+        TypeDocument typeDocument=typeRepository.save(modelMapper.map(typeDocumentDTO,findByIdOrThrowException(id).getClass()));
+        log.debug("Response save method in updateById of TypeDocument \n"+typeDocument);
 
     }
 
     @Override
-    public void DeleteById(Long id) {
+    public void deleteById(Long id) {
+        log.info("Id params of deleteById method in TypeDocument");
         typeRepository.deleteById(findByIdOrThrowException(id).getId());
 
     }
 
 
-    public List<TypeDTO> mapperListClassToListDto(List<TypeDocument> typeDocumentList){
-        List<TypeDTO> typeDTOS=new ArrayList<>();
+    public List<TypeDocumentDTO> mapperListClassToListDto(List<TypeDocument> typeDocumentList){
+        List<TypeDocumentDTO> typeDocumentDTOS =new ArrayList<>();
         for (TypeDocument typeDocument : typeDocumentList) {
 
-            typeDTOS.add(modelMapper.map(typeDocument,TypeDTO.class));
+            typeDocumentDTOS.add(modelMapper.map(typeDocument, TypeDocumentDTO.class));
         }
 
-        return typeDTOS;
+        return typeDocumentDTOS;
 
     }
 

@@ -1,7 +1,7 @@
 package com.moby.dashboard.controller;
 
-import com.moby.dashboard.persistence.models.dto.TechnologyDTO;
-import com.moby.dashboard.service.ITechnologyService;
+import com.moby.dashboard.persistence.models.dto.CandidateDTO;
+import com.moby.dashboard.service.ICandidateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,15 +18,15 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/technology")
-public class TechnologyController {
+@RequestMapping("/api/candidate")
+public class CandidateController {
     @Autowired
-    private ITechnologyService technologyService;
+    private ICandidateService candidateService;
 
 
     @PostMapping("/create")
-    public ResponseEntity<String> create(@Valid @RequestBody TechnologyDTO technologyDTO) {
-        technologyService.create(technologyDTO);
+    public ResponseEntity<String> create(@Valid @RequestBody CandidateDTO candidateDTO) {
+        candidateService.create(candidateDTO);
         return new ResponseEntity<>("Ok.", HttpStatus.CREATED);
     }
 
@@ -34,22 +34,22 @@ public class TechnologyController {
 
 
     @GetMapping("/findAll")
-    public ResponseEntity<List<TechnologyDTO>> findAll() {
+    public ResponseEntity<List<CandidateDTO>> findAll() {
 
-        return new ResponseEntity<>(technologyService.findAll(),HttpStatus.OK);
+        return new ResponseEntity<>(candidateService.findAll(),HttpStatus.OK);
     }
 
 
     @GetMapping("/findById/{id}")
-    public ResponseEntity<TechnologyDTO> findById(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(technologyService.findById(id),HttpStatus.OK);
+    public ResponseEntity<CandidateDTO> findById(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(candidateService.findById(id),HttpStatus.OK);
     }
 
 
 
     @PutMapping("/updateById/{id}")
-    public ResponseEntity<String> updateById(@Valid @RequestBody TechnologyDTO technologyDTO, @PathVariable("id") Long id) {
-        technologyService.updateById(technologyDTO,id);
+    public ResponseEntity<String> updateById(@Valid @RequestBody CandidateDTO candidateDTO, @PathVariable("id") Long id) {
+        candidateService.updateById(candidateDTO,id);
         return new ResponseEntity<>("Updated id: "+id,HttpStatus.OK);
 
     }
@@ -57,7 +57,7 @@ public class TechnologyController {
 
     @DeleteMapping("/deleteById/{id}")
     public ResponseEntity<String> deleteById(@PathVariable Long id) {
-        technologyService.deleteById(id);
+        candidateService.deleteById(id);
         return new ResponseEntity<>("Deleted id: "+id,HttpStatus.OK);
 
     }

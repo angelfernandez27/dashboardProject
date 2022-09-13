@@ -23,8 +23,7 @@ public class Technology {
     @NotBlank(message = "version field must not be null or empty")
     private String version;
 
-    /*@OneToMany(mappedBy = "technology")
-    private List<CandidateTechnology> candidates;*/
+
 
 
 }

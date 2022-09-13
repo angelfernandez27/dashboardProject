@@ -12,6 +12,5 @@ public class TechnologyDTO {
 
     private String version;
 
-    /*
-    private List<CandidateTechnology> candidates;*/
+
 }

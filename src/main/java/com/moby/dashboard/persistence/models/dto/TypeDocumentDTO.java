@@ -4,7 +4,7 @@ package com.moby.dashboard.persistence.models.dto;
 import lombok.Data;
 
 @Data
-public class TypeDTO {
+public class TypeDocumentDTO {
 
     private Long id;
 

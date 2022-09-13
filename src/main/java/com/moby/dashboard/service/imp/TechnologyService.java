@@ -6,13 +6,14 @@ import com.moby.dashboard.persistence.models.dto.TechnologyDTO;
 import com.moby.dashboard.persistence.models.entity.Technology;
 import com.moby.dashboard.persistence.repository.ITechnologyRepository;
 import com.moby.dashboard.service.ITechnologyService;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@Slf4j
 @Service
 public class TechnologyService implements ITechnologyService {
 
@@ -24,30 +25,39 @@ public class TechnologyService implements ITechnologyService {
 
     @Override
     public void create(TechnologyDTO technologyDTO) {
-        technologyRepository.save(modelMapper.map(technologyDTO,Technology.class));
+        log.info("dto in create Technology \n"+technologyDTO);
+        Technology technology=technologyRepository.save(modelMapper.map(technologyDTO,Technology.class));
+        log.debug("Response save method of Technology \n"+technology);
 
     }
 
     @Override
     public List<TechnologyDTO> findAll() {
-        if(technologyRepository.findAll().isEmpty())
+        List<Technology>technologyList=technologyRepository.findAll();
+        if(technologyList.isEmpty())
             throw new EmptyException("Type list is empty");
-        return mapperListClassToListDto(technologyRepository.findAll());
+        log.debug("Response of findAll in Technology \n"+technologyList);
+        return mapperListClassToListDto(technologyList);
     }
 
     @Override
     public TechnologyDTO findById(Long id) {
-        return modelMapper.map(findByIdOrThrowException(id),TechnologyDTO.class);
+        Technology technology=findByIdOrThrowException(id);
+        log.debug("Response of findById id Technology \n"+technology);
+        return modelMapper.map(technology,TechnologyDTO.class);
     }
 
     @Override
     public void updateById(TechnologyDTO technologyDTO, Long id) {
-        technologyRepository.save(modelMapper.map(technologyDTO,findByIdOrThrowException(id).getClass()));
+        log.info("id and dto of updateById in Technology \n"+id+"\n"+technologyDTO);
+        Technology technology=technologyRepository.save(modelMapper.map(technologyDTO,findByIdOrThrowException(id).getClass()));
+        log.debug("Response save method in updateById of Technology \n"+technology);
 
     }
 
     @Override
-    public void DeleteById(Long id) {
+    public void deleteById(Long id) {
+        log.info("id param in deleteById"+id);
         technologyRepository.deleteById(findByIdOrThrowException(id).getId());
 
     }

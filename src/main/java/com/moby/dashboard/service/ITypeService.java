@@ -1,8 +1,7 @@
 package com.moby.dashboard.service;
 
-import com.moby.dashboard.persistence.models.dto.TypeDTO;
-import org.springframework.data.repository.query.Param;
+import com.moby.dashboard.persistence.models.dto.TypeDocumentDTO;
 
-public interface ITypeService extends ICrud<TypeDTO> {
+public interface ITypeService extends ICrud<TypeDocumentDTO> {
 
 }

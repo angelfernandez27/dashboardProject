@@ -33,7 +33,7 @@ public class Candidate {
 
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="type_document_id",referencedColumnName = "id")
+    @JoinColumn(name="type_document_id",referencedColumnName = "id",nullable = false)
     private TypeDocument typeDocument;
 
     @NotBlank(message = "documentNumber field must not be null or empty.")
@@ -45,8 +45,7 @@ public class Candidate {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE,pattern = "yyyy-MM-dd")
     private LocalDate dateOfBirth;
 
-    @OneToMany(mappedBy = "candidate")
-    private List<CandidateTechnology> technologies;
+
 
 
 }
